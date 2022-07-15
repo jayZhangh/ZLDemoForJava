@@ -57,13 +57,15 @@ public class UploadImageServlet extends HttpServlet {
 		
 		try {
 			smartUpload.upload();
-//			System.out.println(smartUpload.getFiles().getCount());
 			for (int i = 0; i < smartUpload.getFiles().getCount(); i++) {
 				// 获取上传文件的扩展名
 				String ext = smartUpload.getFiles().getFile(i).getFileExt();
+				if (ext == null || ext.length() <= 0) {
+					ext = "png";
+				}
+				
 				String fileName = dateFormat.format(new Date()) + "." + ext;
 				String path = UPLOAD + fileName;
-//				System.out.println(smartUpload.getFiles().getFile(i).getSize());
 				if (smartUpload.getFiles().getFile(i).getSize() <= 0) {
 					continue;
 				}

@@ -33,12 +33,30 @@
   </servlet-mapping>
   
   <servlet>
+  	<servlet-name>downloadImage2Servlet</servlet-name>
+  	<servlet-class>com.zl.servlet.DownloadImage2Servlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>downloadImage2Servlet</servlet-name>
+  	<url-pattern>/downloadImage2</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
   	<servlet-name>uploadImageServlet</servlet-name>
   	<servlet-class>com.zl.servlet.UploadImageServlet</servlet-class>
   </servlet>
   <servlet-mapping>
   	<servlet-name>uploadImageServlet</servlet-name>
   	<url-pattern>/uploadImage</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>uploadImage2Servlet</servlet-name>
+  	<servlet-class>com.zl.servlet.UploadImage2Servlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>uploadImage2Servlet</servlet-name>
+  	<url-pattern>/uploadImage2</url-pattern>
   </servlet-mapping>
   
 </web-app>
