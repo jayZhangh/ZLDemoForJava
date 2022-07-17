@@ -59,7 +59,8 @@ public class UploadImageServlet extends HttpServlet {
 			smartUpload.upload();
 			System.out.println(smartUpload.getRequest().getParameter("name1"));
 			System.out.println(smartUpload.getRequest().getParameter("name2"));
-
+			System.out.println(request.getHeader("userName"));
+			
 			for (int i = 0; i < smartUpload.getFiles().getCount(); i++) {
 				// 获取上传文件的扩展名
 				String ext = smartUpload.getFiles().getFile(i).getFileExt();
