@@ -7,21 +7,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.jspsmart.upload.SmartUpload;
-import com.jspsmart.upload.SmartUploadException;
+import com.zl.service.UserService;
 
 /**
- * Servlet implementation class DownloadImageServlet
+ * Servlet implementation class RegisterServlet
  */
-@WebServlet("/DownloadImageServlet")
-public class DownloadImageServlet extends HttpServlet {
+@WebServlet("/RegisterServlet")
+public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String UPLOAD = "/Users/jayZhang/Desktop/upload/";
-	
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DownloadImageServlet() {
+    public RegisterServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,29 +28,14 @@ public class DownloadImageServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.doPost(request, response);
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String url = UPLOAD + request.getParameter("file");
-		if (!new java.io.File(url).exists()) {
-			response.getWriter().println("0");
-			return;
-		}
-		
-		SmartUpload smartUpload = new SmartUpload();
-		smartUpload.initialize(getServletConfig(), request, response);
-		smartUpload.setContentDisposition(null);
-		
-		try {
-			
-			smartUpload.downloadFile(url);
-		} catch (ServletException | IOException | SmartUploadException e) {
-			e.printStackTrace();
-		}
+		response.getWriter().print(UserService.register(request.getParameter("userName"), request.getParameter("password")) ? "1" : "0");
 	}
 
 }

@@ -41,7 +41,7 @@ public class DownloadImage2Servlet extends HttpServlet {
 		String path = UPLOAD + fileName;
 		if (!new java.io.File(path).exists()) {
 			System.out.println("Not Found!");
-			response.getWriter().write("Not Found!");
+			response.getWriter().write("0");
 			return;
 		}
 		

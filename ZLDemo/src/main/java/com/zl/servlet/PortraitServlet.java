@@ -1,5 +1,6 @@
 package com.zl.servlet;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,19 +13,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jspsmart.upload.SmartUpload;
 import com.jspsmart.upload.SmartUploadException;
+import com.zl.service.UserService;
 
 /**
- * Servlet implementation class UploadImageServlet
+ * Servlet implementation class PortraitServlet
  */
-@WebServlet("/UploadImageServlet")
-public class UploadImageServlet extends HttpServlet {
+@WebServlet("/PortraitServlet")
+public class PortraitServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private static final String UPLOAD = "/Users/jayZhang/Desktop/upload/";
-    
+	private static final String UPLOAD = "/Users/jayZhang/Desktop/upload/";
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UploadImageServlet() {
+    public PortraitServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,7 +42,7 @@ public class UploadImageServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		java.io.File existsFile = new java.io.File(UPLOAD);
+		File existsFile = new File(UPLOAD);
 		if (!existsFile.exists()) {
 			existsFile.mkdir();
 		}
@@ -58,9 +60,16 @@ public class UploadImageServlet extends HttpServlet {
 		
 		try {
 			smartUpload.upload();
-			System.out.println(smartUpload.getRequest().getParameter("name1"));
-			System.out.println(smartUpload.getRequest().getParameter("name2"));
-			System.out.println(request.getHeader("userName"));
+			String userId = smartUpload.getRequest().getParameter("userId");
+			String portrait = UserService.getPortrait(userId);
+			File file = new File(UPLOAD + portrait);
+			if (file.exists()) {
+				file.delete();
+			}
+			
+			if (userId == null || userId.trim().length() <= 0) {
+				return;
+			}
 			
 			for (int i = 0; i < smartUpload.getFiles().getCount(); i++) {
 				// 获取上传文件的扩展名
@@ -76,6 +85,8 @@ public class UploadImageServlet extends HttpServlet {
 				}
 				
 				smartUpload.getFiles().getFile(i).saveAs(path);
+				
+				response.getWriter().print(UserService.uploadPortrait(userId, fileName) ? "1" : "0");
 			}
 			
 		} catch (IOException | SmartUploadException e) {

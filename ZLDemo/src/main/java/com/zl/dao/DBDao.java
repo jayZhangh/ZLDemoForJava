@@ -46,7 +46,7 @@ public class DBDao {
 	/**
 	 * 增加、删除、修改
 	 * */
-	public boolean execute(String sql, List<Object> params) {
+	public static boolean execute(String sql, List<Object> params) {
 		boolean flag = false;
 		int result = -1;
 		int index = 1;
@@ -72,7 +72,7 @@ public class DBDao {
 	/**
 	 * 查询单条记录
 	 * */
-	public Map<String, Object> select(String sql, List<Object> params) {
+	public static Map<String, Object> select(String sql, List<Object> params) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		int index = 1;
 		try {
@@ -112,7 +112,7 @@ public class DBDao {
 	/**
 	 * 查询多条记录
 	 * */
-	public List<Map<String, Object>> selectMore(String sql, List<Object> params) {
+	public static List<Map<String, Object>> selectMore(String sql, List<Object> params) {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		int index = 1;
 		try {
@@ -154,7 +154,7 @@ public class DBDao {
 	/**
 	 * 通过反射机制查询单条记录
 	 * */
-	public <T> T select(String sql, List<Object> params, Class<T> cls) {
+	public static <T> T select(String sql, List<Object> params, Class<T> cls) {
 		T resultObject = null;
 		int index = 1;
 		try {
@@ -196,7 +196,7 @@ public class DBDao {
 	/**
 	 * 通过反射机制查询多条记录
 	 * */
-	public <T> List<T> selectMore(String sql, List<Object> params, Class<T> cls) {
+	public static <T> List<T> selectMore(String sql, List<Object> params, Class<T> cls) {
 		List<T> list = new ArrayList<T>();
 		int index = 1;
 		try {

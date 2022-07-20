@@ -1,17 +1,12 @@
 package com.zl.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.zl.dao.DBDao;
-import com.zl.model.UserInfo;
+import com.zl.service.UserService;
 
 /**
  * Servlet implementation class LoginServlet
@@ -48,7 +43,7 @@ public class LoginServlet extends HttpServlet {
 //		response.getWriter().println(new DBDao().select("select * from tb_user where user_name=?", params));
 //		response.getWriter().println(new DBDao().selectMore("select * from tb_user", null));
 //		UserInfo user = null;
-//		user = new DBDao().select("select * from tb_user where user_name=?", params, UserInfo.class);
+//		user = DBDao().select("select * from tb_user where user_name=?", params, UserInfo.class);
 //		response.getWriter().println(user.getUser_id() + "\t" + user.getUser_name() + "\t" + user.getUser_password() + "\t" + user.getUser_portrait());
 //		List<UserInfo> list = new DBDao().selectMore("select * from tb_user", null, UserInfo.class);
 //		response.getWriter().println(list);
@@ -59,10 +54,10 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println(request.getParameter("name1"));
-		System.out.println(request.getParameter("name2"));
-		System.out.println(request.getParameter("name3"));
-		System.out.println(request.getHeader("userName"));
+		String userName = request.getParameter("userName");
+		String password = request.getParameter("password");
+		String flag = UserService.login(userName, password) ? "1" : "0";
+		response.getWriter().print(flag);
 	}
 
 }
