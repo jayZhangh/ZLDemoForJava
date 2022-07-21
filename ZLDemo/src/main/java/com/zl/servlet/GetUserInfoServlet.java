@@ -1,6 +1,5 @@
 package com.zl.servlet;
 
-import java.io.File;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,17 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.zl.service.UserService;
 
 /**
- * Servlet implementation class DeleteServlet
+ * Servlet implementation class GetUserInfoServlet
  */
-@WebServlet("/DeleteServlet")
-public class DeleteServlet extends HttpServlet {
+@WebServlet("/GetUserInfoServlet")
+public class GetUserInfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String UPLOAD = "/Users/jayZhang/Desktop/upload";
-	
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteServlet() {
+    public GetUserInfoServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,14 +35,8 @@ public class DeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userId = request.getParameter("userId");
-		String portrait = UserService.getPortrait(userId);
-		File file = new File(UPLOAD + File.separator + portrait);
-		if (file.exists()) {
-			file.delete();
-		}
-		
-		response.getWriter().print(UserService.delete(userId) ? "1" : "0");
+		request.setAttribute("userInfo", UserService.getUserInfo(request.getParameter("userId")));
+		request.getRequestDispatcher("/updateUser.jsp").forward(request, response);
 	}
 
 }

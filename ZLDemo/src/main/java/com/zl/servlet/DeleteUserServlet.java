@@ -8,21 +8,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.jspsmart.upload.SmartUpload;
-import com.jspsmart.upload.SmartUploadException;
+import com.zl.service.UserService;
 
 /**
- * Servlet implementation class DownloadImageServlet
+ * Servlet implementation class DeleteUserServlet
  */
-@WebServlet("/DownloadImageServlet")
-public class DownloadImageServlet extends HttpServlet {
+@WebServlet("/DeleteUserServlet")
+public class DeleteUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String UPLOAD = "/Users/jayZhang/Desktop/upload";
 	
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DownloadImageServlet() {
+    public DeleteUserServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,35 +30,23 @@ public class DownloadImageServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.doPost(request, response);
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (!new java.io.File(UPLOAD).exists()) {
-			new java.io.File(UPLOAD).mkdir();
+		String userId = request.getParameter("userId");
+		String portrait = UserService.getPortrait(userId);
+		
+		File file = new File(UPLOAD + File.separator + portrait);
+		if (file.exists()) {
+			file.delete();
 		}
 		
-		String fileName = request.getParameter("file");
-		String url = UPLOAD + File.separator + fileName;
-		if (fileName.trim().length() <= 0 || !new java.io.File(url).exists()) {
-//			response.getWriter().print("0");
-			new java.io.File(UPLOAD).mkdir();
-			return;
-		}
-		
-		SmartUpload smartUpload = new SmartUpload();
-		smartUpload.initialize(getServletConfig(), request, response);
-		smartUpload.setContentDisposition(null);
-		
-		try {
-			
-			smartUpload.downloadFile(url);
-		} catch (ServletException | IOException | SmartUploadException e) {
-			e.printStackTrace();
-		}
+		UserService.delete(request.getParameter("userId"));
+		response.sendRedirect("http://localhost:8080/ZLDemo/users");
 	}
 
 }

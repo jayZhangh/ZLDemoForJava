@@ -13,19 +13,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jspsmart.upload.SmartUpload;
 import com.jspsmart.upload.SmartUploadException;
+import com.zl.service.UserService;
 
 /**
- * Servlet implementation class UploadImageServlet
+ * Servlet implementation class UpdateUserServlet
  */
-@WebServlet("/UploadImageServlet")
-public class UploadImageServlet extends HttpServlet {
+@WebServlet("/UpdateUserServlet")
+public class UpdateUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private static final String UPLOAD = "/Users/jayZhang/Desktop/upload";
-    
+	private static final String UPLOAD = "/Users/jayZhang/Desktop/upload";   
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UploadImageServlet() {
+    public UpdateUserServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,7 +42,7 @@ public class UploadImageServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		java.io.File existsFile = new java.io.File(UPLOAD);
+		File existsFile = new File(UPLOAD);
 		if (!existsFile.exists()) {
 			existsFile.mkdir();
 		}
@@ -59,10 +60,16 @@ public class UploadImageServlet extends HttpServlet {
 		
 		try {
 			smartUpload.upload();
-			System.out.println(smartUpload.getRequest().getParameter("name1"));
-			System.out.println(smartUpload.getRequest().getParameter("name2"));
-			System.out.println(request.getHeader("userName"));
 			
+			String userId = smartUpload.getRequest().getParameter("userId");
+			String userName = smartUpload.getRequest().getParameter("userName");
+			String password = smartUpload.getRequest().getParameter("password");
+			
+			if (userId == null || userId.trim().length() <= 0) {
+				return;
+			}
+			
+			String portrait = UserService.getPortrait(userId);
 			for (int i = 0; i < smartUpload.getFiles().getCount(); i++) {
 				// 获取上传文件的扩展名
 				String ext = smartUpload.getFiles().getFile(i).getFileExt();
@@ -72,12 +79,20 @@ public class UploadImageServlet extends HttpServlet {
 				
 				String fileName = dateFormat.format(new Date()) + "." + ext;
 				String path = UPLOAD + File.separator + fileName;
-				if (smartUpload.getFiles().getFile(i).getSize() <= 0) {
-					continue;
+				if (smartUpload.getFiles().getFile(i).isMissing() == false) {
+					smartUpload.getFiles().getFile(i).saveAs(path);
+					UserService.updateUser(userId, userName, password, fileName);
+					File file = new File(UPLOAD + File.separator + portrait);
+					if (file.exists()) {
+						file.delete();
+					}
+					
+				} else {
+					UserService.updateUser(userId, userName, password, portrait);
 				}
-				
-				smartUpload.getFiles().getFile(i).saveAs(path);
 			}
+
+			response.sendRedirect("http://localhost:8080/ZLDemo/users");
 			
 		} catch (IOException | SmartUploadException e) {
 			e.printStackTrace();

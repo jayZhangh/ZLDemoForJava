@@ -1,6 +1,7 @@
 package com.zl.servlet;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/DownloadImage2Servlet")
 public class DownloadImage2Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String UPLOAD = "/Users/jayZhang/Desktop/upload/";
+	private static final String UPLOAD = "/Users/jayZhang/Desktop/upload";
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -37,11 +38,15 @@ public class DownloadImage2Servlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if (!new java.io.File(UPLOAD).exists()) {
+			new java.io.File(UPLOAD).mkdir();
+		}
+		
 		String fileName = request.getParameter("file");
-		String path = UPLOAD + fileName;
-		if (!new java.io.File(path).exists()) {
+		String path = UPLOAD + File.separator + fileName;
+		if (fileName.trim().length() <= 0 || !new java.io.File(path).exists()) {
 			System.out.println("Not Found!");
-			response.getWriter().write("0");
+//			response.getWriter().write("0");
 			return;
 		}
 		

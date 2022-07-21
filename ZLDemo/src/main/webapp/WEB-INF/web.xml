@@ -104,4 +104,49 @@
   	<url-pattern>/delete</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>usersServlet</servlet-name>
+  	<servlet-class>com.zl.servlet.UsersServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>usersServlet</servlet-name>
+  	<url-pattern>/users</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>updateUserServlet</servlet-name>
+  	<servlet-class>com.zl.servlet.UpdateUserServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>updateUserServlet</servlet-name>
+  	<url-pattern>/updateUser</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>addUserServlet</servlet-name>
+  	<servlet-class>com.zl.servlet.AddUserServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>addUserServlet</servlet-name>
+  	<url-pattern>/addUser</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>deleteUserServlet</servlet-name>
+  	<servlet-class>com.zl.servlet.DeleteUserServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>deleteUserServlet</servlet-name>
+  	<url-pattern>/deleteUser</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>getUserInfoServlet</servlet-name>
+  	<servlet-class>com.zl.servlet.GetUserInfoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>getUserInfoServlet</servlet-name>
+  	<url-pattern>/getUserInfo</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

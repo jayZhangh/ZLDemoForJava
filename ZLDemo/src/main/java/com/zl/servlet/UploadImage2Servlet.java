@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +26,7 @@ import java.util.List;
 @WebServlet("/UploadImage2Servlet")
 public class UploadImage2Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String UPLOAD = "/Users/jayZhang/Desktop/upload/";
+	private static final String UPLOAD = "/Users/jayZhang/Desktop/upload";
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -86,7 +87,7 @@ public class UploadImage2Servlet extends HttpServlet {
                     System.out.println(path);
 
                     // 创建输出流
-                    OutputStream outputStream = new FileOutputStream(path + fileName);
+                    OutputStream outputStream = new FileOutputStream(path + File.separator + fileName);
                     int len = 0;
                     byte[] bytes = new byte[1024];
                     while ((len = inputStream.read(bytes)) != -1) {

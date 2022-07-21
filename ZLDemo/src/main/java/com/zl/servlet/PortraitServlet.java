@@ -21,7 +21,7 @@ import com.zl.service.UserService;
 @WebServlet("/PortraitServlet")
 public class PortraitServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String UPLOAD = "/Users/jayZhang/Desktop/upload/";
+	private static final String UPLOAD = "/Users/jayZhang/Desktop/upload";
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -61,15 +61,12 @@ public class PortraitServlet extends HttpServlet {
 		try {
 			smartUpload.upload();
 			String userId = smartUpload.getRequest().getParameter("userId");
-			String portrait = UserService.getPortrait(userId);
-			File file = new File(UPLOAD + portrait);
-			if (file.exists()) {
-				file.delete();
-			}
 			
 			if (userId == null || userId.trim().length() <= 0) {
 				return;
 			}
+			
+			String portrait = UserService.getPortrait(userId);
 			
 			for (int i = 0; i < smartUpload.getFiles().getCount(); i++) {
 				// 获取上传文件的扩展名
@@ -79,7 +76,7 @@ public class PortraitServlet extends HttpServlet {
 				}
 				
 				String fileName = dateFormat.format(new Date()) + "." + ext;
-				String path = UPLOAD + fileName;
+				String path = UPLOAD + File.separator + fileName;
 				if (smartUpload.getFiles().getFile(i).getSize() <= 0) {
 					continue;
 				}
@@ -87,6 +84,11 @@ public class PortraitServlet extends HttpServlet {
 				smartUpload.getFiles().getFile(i).saveAs(path);
 				
 				response.getWriter().print(UserService.uploadPortrait(userId, fileName) ? "1" : "0");
+			}
+			
+			File file = new File(UPLOAD + File.separator + portrait);
+			if (file.exists()) {
+				file.delete();
 			}
 			
 		} catch (IOException | SmartUploadException e) {

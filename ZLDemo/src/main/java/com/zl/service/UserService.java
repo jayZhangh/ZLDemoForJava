@@ -62,4 +62,20 @@ public class UserService {
 		return user.get("user_portrait").toString();
 	}
 	
+	public static boolean updateUser(String userId, String userName, String password, String portrait) {
+		ArrayList<Object> params = new ArrayList<Object>();
+		params.add(userName);
+		params.add(password);
+		params.add(portrait);
+		params.add(userId);
+		
+		return DBDao.execute("update tb_user set user_name=?, user_password=?, user_portrait=? where user_id=?", params);
+	}
+	
+	public static UserInfo getUserInfo(String userId) {
+		ArrayList<Object> params = new ArrayList<Object>();
+		params.add(userId);
+		
+		return DBDao.select("select * from tb_user where user_id=?", params, UserInfo.class);
+	}
 }
